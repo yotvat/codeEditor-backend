@@ -7,6 +7,9 @@ export const SOCKET_EVENT_SET_BLOCK = 'set-block'
 export const SOCKET_EMIT_UPDATED_BLOCK = 'block-updated'
 export const SOCKET_EVENT_UPDATE_BLOCK = 'update-block'
 
+export const SOCKET_EMIT_IS_MENTOR = 'is-mentor'
+let onlineUsers = 0
+
 export const socketService = {
   setupSocketAPI,
 }
@@ -20,8 +23,20 @@ export function setupSocketAPI(server) {
 
   gIo.on('connection', socket => {
     logger.info(`New connected socket[id:${socket.id}]`)
-    socket.on('disconnect', socket => {
-      logger.info(`socket disconnected [id:${socket.id}]`)
+    onlineUsers++
+    logger.info(`Online users: ${onlineUsers}`)
+    const isMentor = onlineUsers === 1
+    socket.emit(SOCKET_EMIT_IS_MENTOR, { isMentor })
+
+    // socket.on('disconnect', socket => {
+    //   onlineUsers--
+    //   logger.info(`socket disconnected [id:${socket.id}]`)
+    // })
+
+    socket.on('disconnect',() => {
+      onlineUsers--
+      logger.info(`Socket disconnected [id: ${socket.id}]`);
+      logger.info(`Online users: ${onlineUsers}`)
     })
 
     socket.on(SOCKET_EVENT_SET_BLOCK, block => {
