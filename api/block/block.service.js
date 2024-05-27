@@ -56,18 +56,16 @@ async function add(block) {
 }
 
 async function update(block) {
+  // Create a copy of the block object and exclude _id field
+  const blockToSave = { ...block }
+  delete blockToSave._id
   try {
-    // Create a copy of the block object and exclude _id field
-    const blockToSave = { ...block };
-    delete blockToSave._id;
-
-    const collection = await dbService.getCollection('block');
-    await collection.updateOne({ _id: new ObjectId(block._id) }, { $set: blockToSave });
-    console.log('iddddddd',blockToSave._id);
-    return block;
+    const collection = await dbService.getCollection('block')
+    await collection.updateOne({ _id: new ObjectId(block._id) }, { $set: blockToSave })
+    return block
     // return blockToSave?;
   } catch (err) {
-    logger.error(`Cannot update block ${block._id}`, err);
+    logger.error(`Cannot update block ${block._id}`, err)
     throw err;
   }
 }
