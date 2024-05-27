@@ -1,5 +1,4 @@
 import fs from 'fs'
-import {asyncLocalStorage} from './als.service.js'
 
 
 const logsDir = './logs'
@@ -24,9 +23,8 @@ function doLog(level, ...args) {
     )
 
     var line = strs.join(' | ')
-    const store = asyncLocalStorage.getStore()
-    const userId = store?.loggedinUser?._id
-    const str = userId ? `(userId: ${userId})` : ''
+    var store 
+    const str = ''
     line = `${getTime()} - ${level} - ${line} ${str}\n`
     console.log(line)
     fs.appendFile('./logs/backend.log', line, (err) =>{

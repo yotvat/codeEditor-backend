@@ -12,6 +12,8 @@ const server = http.createServer(app)
 
 app.use(cookieParser())
 app.use(express.json())
+// app.use(express.static('public'))
+
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve('public')))
@@ -30,7 +32,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(cors(corsOptions))
 }
 
+import { setupSocketAPI } from './services/socket-service.js'
+
+
 app.use('/api/block', blockRoutes)
+
+setupSocketAPI(server)
+
 
 app.get('/**', (req, res) => {
   res.sendFile(path.resolve('public/index.html'))
