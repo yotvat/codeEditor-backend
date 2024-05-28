@@ -10,8 +10,6 @@ export const SOCKET_EVENT_UPDATE_BLOCK = 'update-block'
 
 export const SOCKET_EMIT_IS_MENTOR = 'is-mentor'
 
-// let onlineUsers = 0
-
 export const socketService = {
   setupSocketAPI,
 }
@@ -25,14 +23,15 @@ export function setupSocketAPI(server) {
 
   gIo.on('connection', socket => {
     logger.info(`New connected socket[id:${socket.id}]`)
-    // onlineUsers++
-    // logger.info(`Online users: ${onlineUsers}`)
+    //assign mentor
+    const isMentor = mentorSocketId === null
+    if (isMentor) {
+      mentorSocketId = socket.id
+    }
+    socket.emit(SOCKET_EMIT_IS_MENTOR, { isMentor })
 
     socket.on('disconnect', () => {
-      // onlineUsers--
       logger.info(`Socket disconnected [id: ${socket.id}]`);
-      // logger.info(`Online users: ${onlineUsers}`)
-
       if (socket.id === mentorSocketId) {
         mentorSocketId = null
       }
@@ -49,13 +48,6 @@ export function setupSocketAPI(server) {
       socket.join(block._id)
       logger.info(`joined block: ${block._id}`)
       socket.myBlock = block._id
-
-      //assign mentor
-      const isMentor = mentorSocketId === null
-      if (isMentor) {
-        mentorSocketId = socket.id
-      }
-      socket.emit(SOCKET_EMIT_IS_MENTOR, { isMentor })
 
     })
 
