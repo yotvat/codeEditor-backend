@@ -44,7 +44,6 @@ export function setupSocketAPI(server) {
         logger.info(`socket is leaving block ${socket.myBlock} [id: ${socket.id}]`)
       }
 
-      // if (socket.myBlock === block._id) return
       socket.join(block._id)
       logger.info(`joined block: ${block._id}`)
       socket.myBlock = block._id
