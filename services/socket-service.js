@@ -78,7 +78,5 @@ export function setupSocketAPI(server) {
       logger.info(`Block updated from socket from socket [id:${socket.id}]`)
       socket.broadcast.to(socket.myBlock).emit(SOCKET_EMIT_UPDATED_BLOCK, block)
     })
-
-
   })
 }

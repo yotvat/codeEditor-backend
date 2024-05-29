@@ -12,8 +12,6 @@ const server = http.createServer(app)
 
 app.use(cookieParser())
 app.use(express.json())
-// app.use(express.static('public'))
-
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve('public')))
@@ -49,5 +47,3 @@ server.listen(port, () => {
   logger.info('Server is running on port: ' + port)
 })
 
-// import { setupAsyncLocalStorage } from './middlewares/setupAls.middleware.js'
-// app.all('*', setupAsyncLocalStorage)

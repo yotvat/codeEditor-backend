@@ -63,7 +63,6 @@ async function update(block) {
     const collection = await dbService.getCollection('block')
     await collection.updateOne({ _id: new ObjectId(block._id) }, { $set: blockToSave })
     return block
-    // return blockToSave?;
   } catch (err) {
     logger.error(`Cannot update block ${block._id}`, err)
     throw err;
