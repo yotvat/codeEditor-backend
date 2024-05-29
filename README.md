@@ -24,8 +24,8 @@ This application allows mentors to follow and assist their students progress in 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yotvat/codeEditor-frontend
-   cd codeEditor-frontend
+   git clone https://github.com/yotvat/codeEditor-backend
+   cd codeEditor-backend
    
 2. **Install dependencies and start the client:**
 ```bash
